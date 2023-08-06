@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stopwatch</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f0f0f0;
+      margin: 0;
+    }
+
+    #stopwatch {
+      background-color: #333;
+      padding: 20px;
+      border-radius: 10px;
+      color: #fff;
+      text-align: center;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .time-display {
+      font-size: 36px;
+      padding: 10px;
+    }
+
+    .controls {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    button {
+      background-color: #FF5722;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #FF7043;
+    }
+  </style>
+</head>
+<body>
+  <div id="stopwatch">
+    <div class="time-display">00:00:00</div>
+    <div class="controls">
+      <button id="startButton">Start</button>
+      <button id="stopButton">Stop</button>
+      <button id="resetButton">Reset</button>
+    </div>
+  </div>
+
+  <script>
+        const timeDisplay = document.querySelector('.time-display');
+    let intervalId;
+    let isRunning = false;
+    let seconds = 0;
+
+    function formatTime(timeInSeconds) {
+      const padZero = (num) => (num < 10 ? `0${num}` : num);
+      const hours = Math.floor(timeInSeconds / 3600);
+      const minutes = Math.floor((timeInSeconds % 3600) / 60);
+      const seconds = timeInSeconds % 60;
+      return `${padZero(hours)}:${padZero(minutes)}:${padZero(seconds)}`;
+    }
+
+    function updateStopwatch() {
+      seconds++;
+      timeDisplay.textContent = formatTime(seconds);
+    }
+
+    function startStopwatch() {
+      if (!isRunning) {
+        intervalId = setInterval(updateStopwatch, 1000);
+        isRunning = true;
+      }
+    }
+
+    function stopStopwatch() {
+      if (isRunning) {
+        clearInterval(intervalId);
+        isRunning = false;
+      }
+    }
+
+    function resetStopwatch() {
+      stopStopwatch();
+      seconds = 0;
+      timeDisplay.textContent = formatTime(seconds);
+    }
+
+    document.getElementById('startButton').addEventListener('click', startStopwatch);
+    document.getElementById('stopButton').addEventListener('click', stopStopwatch);
+    document.getElementById('resetButton').addEventListener('click', resetStopwatch);
+  
+  </script>
+</script>
+</body>
+</html>
